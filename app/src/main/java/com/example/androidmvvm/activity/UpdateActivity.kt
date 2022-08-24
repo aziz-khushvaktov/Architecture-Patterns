@@ -1,14 +1,19 @@
 package com.example.androidmvvm.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.example.androidmvvm.databinding.ActivityUpdateBinding
 import com.example.androidmvvm.model.Post
 import com.example.androidmvvm.viewMode.UpdateViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
-class UpdateActivity : BaseActivity() {
+@AndroidEntryPoint
+class UpdateActivity @Inject constructor(): BaseActivity() {
 
     private val binding by lazy { ActivityUpdateBinding.inflate(layoutInflater) }
-    private val viewModel by lazy { UpdateViewModel(this) }
+    private val viewModel: UpdateViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

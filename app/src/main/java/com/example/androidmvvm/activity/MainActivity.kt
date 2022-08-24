@@ -1,6 +1,7 @@
 package com.example.androidmvvm.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmvvm.adapter.PostAdapter
@@ -8,11 +9,15 @@ import com.example.androidmvvm.databinding.ActivityMainBinding
 import com.example.androidmvvm.helper.SwipeToDeleteCallback
 import com.example.androidmvvm.model.Post
 import com.example.androidmvvm.viewMode.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
-class MainActivity : BaseActivity() {
+@AndroidEntryPoint
+class MainActivity @Inject constructor(): BaseActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    val viewModel by lazy { MainViewModel(this) }
+    val viewModel: MainViewModel by viewModels()
     lateinit var postAdapter: PostAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +28,7 @@ class MainActivity : BaseActivity() {
 
     private fun initViews() {
         viewModel.apiGetPostsList()
+        showLoading(this)
         viewModel.allPosts.observe(this, {
             refreshAdapter(it)
         })

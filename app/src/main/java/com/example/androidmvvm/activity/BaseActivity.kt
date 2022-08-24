@@ -1,21 +1,30 @@
 package com.example.androidmvvm.activity
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialog
 import com.example.androidmvvm.R
 import com.example.androidmvvm.adapter.PostAdapter
 import com.example.androidmvvm.model.Post
+import dagger.Provides
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
+import javax.inject.Singleton
 
-open class BaseActivity : AppCompatActivity() {
+@AndroidEntryPoint
+open class BaseActivity @Inject constructor(): AppCompatActivity() {
     var progressDialog: AppCompatDialog? = null
+
     lateinit var context: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {

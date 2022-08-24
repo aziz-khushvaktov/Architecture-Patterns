@@ -11,7 +11,6 @@ object Utils {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
-
     fun customDialog(
         context: Context?,
         title: String,
