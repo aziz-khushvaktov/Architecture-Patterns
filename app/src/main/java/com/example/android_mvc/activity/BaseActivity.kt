@@ -10,6 +10,9 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialog
 import com.example.android_mvc.R
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
 open class BaseActivity : AppCompatActivity() {
     var progressDialog: AppCompatDialog? = null

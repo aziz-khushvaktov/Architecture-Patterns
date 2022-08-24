@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.android_mvc.databinding.ActivityUpdateBinding
 import com.example.android_mvc.model.Post
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class UpdateActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class UpdateActivity @Inject constructor(): BaseActivity() {
 
     private val binding by lazy { ActivityUpdateBinding.inflate(layoutInflater) }
 

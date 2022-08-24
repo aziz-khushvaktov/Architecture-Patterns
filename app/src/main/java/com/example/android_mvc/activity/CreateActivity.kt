@@ -1,13 +1,14 @@
 package com.example.android_mvc.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.example.android_mvc.databinding.ActivityCreateBinding
 import com.example.android_mvc.model.Post
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class CreateActivity : BaseActivity() {
+@AndroidEntryPoint
+class CreateActivity @Inject constructor() : BaseActivity() {
 
     private val binding by lazy { ActivityCreateBinding.inflate(layoutInflater) }
 
@@ -24,12 +25,12 @@ class CreateActivity : BaseActivity() {
     }
 
     private fun backToFinish() {
-        val id = (System.currentTimeMillis()/2).toInt()
-        val post = Post(id, binding.etTitle.text.toString(),binding.etBody.text.toString())
+        val id = (System.currentTimeMillis() / 2).toInt()
+        val post = Post(id, binding.etTitle.text.toString(), binding.etBody.text.toString())
 
         val intent = Intent()
-        intent.putExtra("createPost",post)
-        setResult(RESULT_OK,intent)
+        intent.putExtra("createPost", post)
+        setResult(RESULT_OK, intent)
         finish()
     }
 }

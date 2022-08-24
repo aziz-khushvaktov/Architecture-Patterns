@@ -17,20 +17,26 @@ import com.example.android_mvc.databinding.ItemPostListBinding
 import com.example.android_mvc.helper.SwipeToDeleteCallback
 import com.example.android_mvc.helper.SwipeToUpdateCallback
 import com.example.android_mvc.model.Post
-import com.example.android_mvc.network.RetrofitHttp
+import com.example.android_mvc.network.service.PostService
 import com.example.android_mvc.utils.Utils
 import com.example.android_mvc.utils.Utils.toast
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class MainActivity : BaseActivity() {
+@AndroidEntryPoint
+class MainActivity @Inject constructor() : BaseActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val binding2 by lazy { ItemPostListBinding.inflate(layoutInflater) }
     lateinit var postAdapter: PostAdapter
     lateinit var ll_view: CardView
+
+    @Inject
+    lateinit var postService: PostService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +92,7 @@ class MainActivity : BaseActivity() {
      */
 
     private fun apiCreateNewPost(post: Post) {
-        RetrofitHttp.postService.createPost(post).enqueue(object : Callback<Post> {
+        postService.createPost(post).enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 val title = post.title
                 toast("$title: New post has been created successfully!")
@@ -101,7 +107,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun apiPostUpdate(post: Post) {
-        RetrofitHttp.postService.updatePost(post.id, post).enqueue(object : Callback<Post> {
+        postService.updatePost(post.id, post).enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 val title = post.title
                 postAdapter.notifyDataSetChanged()
@@ -117,8 +123,8 @@ class MainActivity : BaseActivity() {
 
     private fun apiGetAllPostsList(): ArrayList<Post> {
         showLoading(this)
-        var list = ArrayList<Post>()
-        RetrofitHttp.postService.listPosts().enqueue(object : Callback<ArrayList<Post>> {
+        val list = ArrayList<Post>()
+        postService.listPosts().enqueue(object : Callback<ArrayList<Post>> {
             override fun onResponse(
                 call: Call<ArrayList<Post>>,
                 response: Response<ArrayList<Post>>,
@@ -140,7 +146,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun apiPostDelete(post: Post, position: Int) {
-        RetrofitHttp.postService.deletePost(post.id).enqueue(object : Callback<Post> {
+        postService.deletePost(post.id).enqueue(object : Callback<Post> {
             @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 toast("Post which is id:  ${post.id} has been deleted successfully!")
